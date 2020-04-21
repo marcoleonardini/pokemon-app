@@ -14,7 +14,6 @@ class PokemonService {
         listPokemon.results.map<Future<Pokemon>>((e) => getPokemon(e.url)));
 
     List<Pokemon> res = await Future.wait(futures);
-    print(res.length);
     return res;
   }
 
