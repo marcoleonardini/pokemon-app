@@ -28,7 +28,6 @@ class PokedexPage extends StatelessWidget {
           child: FutureBuilder(
             future: PokemonService.getListPokemon(),
             builder: (context, AsyncSnapshot<List<Pokemon>> snapshot) {
-              print(snapshot.data);
               if (!snapshot.hasData) {
                 return Center(child: CircularProgressIndicator());
               }
@@ -40,7 +39,6 @@ class PokedexPage extends StatelessWidget {
                 itemCount: 20,
                 itemBuilder: (context, index) {
                   Pokemon _pokemon = snapshot.data[index];
-                  // print(_pokemon.id);?
                   return PokemonCard(pokemon: _pokemon);
                 },
               );
