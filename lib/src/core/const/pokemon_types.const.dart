@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Map<String, dynamic> pokemonColorsType = {
+Map<String, dynamic> kPokemonColorsType = {
   "normal": Colors.brown,
   "fighting": Colors.deepOrange,
   "flying": Colors.red,

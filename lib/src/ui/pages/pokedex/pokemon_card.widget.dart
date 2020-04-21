@@ -9,12 +9,13 @@ class PokemonCard extends StatelessWidget {
   const PokemonCard({Key key, this.pokemon}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final Color backgroundColor = pokemon.getBackgroundColor();
     return Container(
       margin: EdgeInsets.all(16.0),
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
-        color: Colors.red[800],
+        color: backgroundColor.withOpacity(0.85),
       ),
       child: Stack(
         fit: StackFit.loose,

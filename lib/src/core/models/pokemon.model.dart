@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:pokemon_app/src/core/const/pokemon_types.const.dart';
+
 Pokemon pokemonFromJson(String str) => Pokemon.fromJson(json.decode(str));
 
 String pokemonToJson(Pokemon data) => json.encode(data.toJson());
@@ -42,6 +45,11 @@ class Pokemon {
     this.types,
     this.weight,
   });
+
+  Color getBackgroundColor() {
+    Type type = this.types.firstWhere((element) => element.slot == 1);
+    return kPokemonColorsType[type.type.name];
+  }
 
   factory Pokemon.fromJson(Map<String, dynamic> json) => Pokemon(
         abilities: List<Ability>.from(

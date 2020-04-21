@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final listPokemon = listPokemonFromJson(jsonString);
-
 import 'dart:convert';
 
 ListPokemon listPokemonFromJson(String str) =>
