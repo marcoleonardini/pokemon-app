@@ -12,7 +12,7 @@ class PokemonCard extends StatelessWidget {
     final Color backgroundColor = pokemon.getBackgroundColor();
     return Container(
       margin: EdgeInsets.all(16.0),
-      padding: EdgeInsets.all(8.0),
+      // padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: backgroundColor.withOpacity(0.85),
@@ -21,8 +21,21 @@ class PokemonCard extends StatelessWidget {
         fit: StackFit.loose,
         children: <Widget>[
           Positioned(
-            left: 0,
-            top: 0,
+            bottom: -20,
+            right: -20,
+            child: Opacity(
+              opacity: 0.2,
+              child: Image.asset(
+                'images/pokeball.png',
+                color: Colors.white,
+                height: 100.0,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 10,
+            top: 10,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -34,21 +47,7 @@ class PokemonCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                Card(
-                  margin: EdgeInsets.only(top: 6.0),
-                  elevation: 0.0,
-                  color: Colors.white24,
-                  shape: StadiumBorder(),
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.0,
-                      vertical: 4,
-                    ),
-                    child: Text(
-                      pokemon.types[0].type.name,
-                    ),
-                  ),
-                ),
+                BuildListType(pokemon: pokemon),
               ],
             ),
           ),
@@ -56,15 +55,76 @@ class PokemonCard extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: FractionallySizedBox(
               widthFactor: 0.55,
-              heightFactor: 0.6,
-              child: CachedNetworkImage(
-                imageUrl: kPokemonImageEndPoint + '${pokemon.id}.png',
-                fit: BoxFit.contain,
-                fadeInCurve: Curves.bounceInOut,
+              heightFactor: 0.75,
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: CachedNetworkImage(
+                  imageUrl: kPokemonImageEndPoint + '${pokemon.id}.png',
+                  fit: BoxFit.contain,
+                  fadeInCurve: Curves.bounceInOut,
+                ),
               ),
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class BuildListType extends StatelessWidget {
+  const BuildListType({
+    Key key,
+    @required this.pokemon,
+  }) : super(key: key);
+
+  final Pokemon pokemon;
+
+  @override
+  Widget build(BuildContext context) {
+    if (pokemon.types.length == 1) {
+      return Column(
+        children: <Widget>[
+          PokemonTypeCard(pokemonType: pokemon.types[0]),
+        ],
+      );
+    }
+
+    pokemon.types.sort((a, b) => a.slot.compareTo(b.slot));
+    final List _types =
+        pokemon.types.map((e) => PokemonTypeCard(pokemonType: e)).toList();
+
+    return Column(children: _types);
+  }
+}
+
+class PokemonTypeCard extends StatelessWidget {
+  const PokemonTypeCard({
+    Key key,
+    @required this.pokemonType,
+  }) : super(key: key);
+
+  final Type pokemonType;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.only(top: 6.0),
+      elevation: 0.0,
+      color: Colors.white24,
+      shape: StadiumBorder(),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 12.0,
+          vertical: 4,
+        ),
+        child: Text(
+          pokemonType.type.name,
+          style: TextStyle(
+            fontSize: 12.0,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
