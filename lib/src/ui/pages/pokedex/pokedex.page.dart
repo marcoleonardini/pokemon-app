@@ -10,7 +10,21 @@ class PokedexPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          leading: Icon(Icons.arrow_back_ios),
+          actions: <Widget>[
+            Icon(
+              Icons.menu,
+            ),
+          ],
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+        ),
         body: Container(
+          color: Colors.white,
           constraints: BoxConstraints.expand(),
           child: FutureBuilder(
             future: PokemonService.getListPokemon(),
@@ -55,7 +69,7 @@ class PokedexPage extends StatelessWidget {
       margin: EdgeInsets.all(16.0),
       padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
+        borderRadius: BorderRadius.circular(16.0),
         color: Colors.red[800],
       ),
       child: Stack(
