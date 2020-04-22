@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_app/src/ui/pages/pokedex/pokedex.page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -81,10 +82,14 @@ class MainMenu extends StatelessWidget {
               MainMenuItem(
                 title: 'Pokedex',
                 color: Colors.cyan,
+                onPressed: () {
+                  Navigator.push(context, PokedexPage.route());
+                },
               ),
               MainMenuItem(
                 title: 'Moves',
                 color: Colors.red,
+                onPressed: () {},
               ),
             ],
           ),
@@ -92,20 +97,24 @@ class MainMenu extends StatelessWidget {
             MainMenuItem(
               title: 'Abilities',
               color: Colors.blue,
+              onPressed: () {},
             ),
             MainMenuItem(
               title: 'Items',
               color: Colors.yellow,
+              onPressed: () {},
             ),
           ]),
           TableRow(children: [
             MainMenuItem(
               title: 'Locations',
               color: Colors.purple,
+              onPressed: () {},
             ),
             MainMenuItem(
               title: 'Type Charts',
               color: Colors.brown,
+              onPressed: () {},
             ),
           ]),
         ],
@@ -117,8 +126,10 @@ class MainMenu extends StatelessWidget {
 class MainMenuItem extends StatelessWidget {
   final String title;
   final Color color;
+  final Function onPressed;
 
-  const MainMenuItem({@required this.title, @required this.color});
+  const MainMenuItem(
+      {@required this.title, @required this.color, @required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +142,7 @@ class MainMenuItem extends StatelessWidget {
           8.0,
         ),
         child: InkWell(
-          onTap: () {},
+          onTap: onPressed,
           child: Stack(
             children: <Widget>[
               Align(
