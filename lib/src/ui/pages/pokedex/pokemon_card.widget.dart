@@ -11,8 +11,7 @@ class PokemonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color backgroundColor = pokemon.getBackgroundColor();
     return Container(
-      margin: EdgeInsets.all(16.0),
-      // padding: EdgeInsets.all(8.0),
+      // margin: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.0),
         color: backgroundColor.withOpacity(0.85),
@@ -35,7 +34,7 @@ class PokemonCard extends StatelessWidget {
           ),
           Positioned(
             left: 10,
-            top: 10,
+            top: 15,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -46,6 +45,9 @@ class PokemonCard extends StatelessWidget {
                     fontSize: 16.0,
                     fontWeight: FontWeight.w500,
                   ),
+                ),
+                SizedBox(
+                  height: 8.0,
                 ),
                 BuildListType(pokemon: pokemon),
               ],

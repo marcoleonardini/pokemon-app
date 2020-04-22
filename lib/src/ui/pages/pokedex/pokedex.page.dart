@@ -24,25 +24,46 @@ class PokedexPage extends StatelessWidget {
         ),
         body: Container(
           color: Colors.white,
+          padding: EdgeInsets.all(16.0),
           constraints: BoxConstraints.expand(),
-          child: FutureBuilder(
-            future: PokemonService.getListPokemon(),
-            builder: (context, AsyncSnapshot<List<Pokemon>> snapshot) {
-              if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
-              }
-              return GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.25,
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(bottom: 20.0),
+                child: Text(
+                  'Pokedex',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  Pokemon _pokemon = snapshot.data[index];
-                  return PokemonCard(pokemon: _pokemon);
-                },
-              );
-            },
+              ),
+              Expanded(
+                child: FutureBuilder(
+                  future: PokemonService.getListPokemon(),
+                  builder: (context, AsyncSnapshot<List<Pokemon>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.4,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
+                      ),
+                      itemCount: 20,
+                      itemBuilder: (context, index) {
+                        Pokemon _pokemon = snapshot.data[index];
+                        return PokemonCard(pokemon: _pokemon);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),
