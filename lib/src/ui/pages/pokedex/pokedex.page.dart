@@ -18,7 +18,7 @@ class PokedexPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0.0,
-          leading: Icon(Icons.arrow_back_ios),
+          automaticallyImplyLeading: true,
           actions: <Widget>[
             Icon(
               Icons.menu,
