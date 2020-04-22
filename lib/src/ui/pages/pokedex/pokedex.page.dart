@@ -49,23 +49,11 @@ class PokedexPage extends StatelessWidget {
               Expanded(
                 child: FutureBuilder(
                   future: PokemonService.getListPokemon(),
-                  builder: (context, AsyncSnapshot<List<Pokemon>> snapshot) {
+                  builder: (context, AsyncSnapshot<dynamic> snapshot) {
                     if (!snapshot.hasData) {
                       return Center(child: CircularProgressIndicator());
                     }
-                    return GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1.4,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                      ),
-                      itemCount: 20,
-                      itemBuilder: (context, index) {
-                        Pokemon _pokemon = snapshot.data[index];
-                        return PokemonCard(pokemon: _pokemon);
-                      },
-                    );
+                    return PokemonGridView(listPokemon: snapshot.data);
                   },
                 ),
               ),
@@ -73,6 +61,73 @@ class PokedexPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PokemonGridView extends StatefulWidget {
+  final dynamic listPokemon;
+  const PokemonGridView({
+    Key key,
+    @required this.listPokemon,
+  }) : super(key: key);
+
+  @override
+  _PokemonGridViewState createState() => _PokemonGridViewState();
+}
+
+class _PokemonGridViewState extends State<PokemonGridView> {
+  ScrollController _scrollController = ScrollController();
+  String nextUrl;
+
+  List<Pokemon> _listPokemon = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _listPokemon =
+        List.from(widget.listPokemon['list'] as List<Pokemon>, growable: true);
+    nextUrl = widget.listPokemon['next'];
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        nextPokemons(nextUrl);
+      }
+    });
+  }
+
+  void nextPokemons(String url) async {
+    var res = await PokemonService.getListPokemon(url: url);
+    nextUrl = res['next'];
+    print('end');
+    setState(() {
+      print('end');
+      _listPokemon.addAll((res['list'] as List<Pokemon>));
+    });
+    print('end');
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.4,
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+      ),
+      controller: _scrollController,
+      itemCount: _listPokemon.length,
+      itemBuilder: (context, index) {
+        Pokemon _pokemon = _listPokemon[index];
+        return PokemonCard(pokemon: _pokemon);
+      },
     );
   }
 }
