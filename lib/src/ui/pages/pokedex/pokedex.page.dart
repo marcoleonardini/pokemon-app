@@ -5,6 +5,12 @@ import '../../../core/services/pokemon.service.dart';
 import 'pokemon_card.widget.dart';
 
 class PokedexPage extends StatelessWidget {
+  static Route<dynamic> route() {
+    return MaterialPageRoute(
+      builder: (BuildContext context) => PokedexPage(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
